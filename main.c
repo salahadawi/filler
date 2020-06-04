@@ -6,13 +6,28 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/04 21:44:33 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/04 22:15:29 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/filler.h"
 #include <stdio.h>///
 #include <fcntl.h>///
+
+int fdebug;
+
+void	debug_print_map(t_filler *filler)
+{
+	size_t	i = 0;
+	
+	while (i < filler->map_height)
+	{
+		ft_fprintf(fdebug, "%s\n", filler->map[i]);
+		i++;
+	}
+	close(fdebug);
+	exit(0);
+}
 
 void	handle_error(char *message)
 {
@@ -34,7 +49,6 @@ void	get_player_id(t_filler *filler)
 	if (!(id_pointer = ft_strchr(line, 'p')))
 		handle_error("Invalid player id.");
 	filler->player_id = ft_atoi(id_pointer + 1);
-	handle_error("yes");
 }
 
 t_filler	*init_filler(void)
@@ -57,7 +71,7 @@ void	skip_useless_lines(void)
 
 void	init_map(t_filler *filler)
 {
-	int		i;
+	size_t	i;
 	char 	*line;
 	char 	**size;
 
@@ -65,30 +79,44 @@ void	init_map(t_filler *filler)
 	size = ft_strsplit(line, ' ');
 	filler->map_height = ft_atoi(size[1]);
 	filler->map_width = ft_atoi(size[2]);
-	while (*size)
-		free((*size)++);
-	free(size);
-	filler->map = (char**)malloc(sizeof(char *) * filler->map_height);
+	
+	//while (*size)
+		//free((*size)++);
+	//free(size);
+	filler->map = (char**)ft_memalloc(sizeof(char *) * filler->map_height);
 	i = 0;
 	while (i < filler->map_height)
-		filler->map[i++] = (char*)malloc(sizeof(char) * filler->map_width);
-	handle_error(size[1]);
+		filler->map[i++] = (char*)ft_memalloc(sizeof(char) * filler->map_width);
+}
+
+void	skip_coordinates(void)
+{
+	char *line;
+
+	get_next_line(0, &line);
+	free(line);
 }
 
 void	parse_input(t_filler *filler)
 {
-	char *line;
+	char	*line;
+	size_t	i;
 
 	if (filler->map)
 		skip_useless_lines();
 	else
 		init_map(filler);
-	while (get_next_line(0, &line) > 0)
+	i = 0;
+	skip_coordinates();
+	while (i < filler->map_height)
 	{
-		if (ft_strstr(line, "Piece"))
-			break;
-		
+		get_next_line(0, &line);
+		ft_strcpy(filler->map[i++], ft_strchr(line, ' ') + 1);
+		free(line);
 	}
+	
+	i = 0;
+	debug_print_map(filler);
 	/*filler->piece = line[numbers]
 	while i < piece_size[1]
 	{
@@ -101,10 +129,9 @@ int		main(void)
 	t_filler *filler;
 	char *line;
 	
-	int fd = open("testi", O_WRONLY);
+	fdebug = open("testi", O_WRONLY);
 	filler = init_filler();
 	get_player_id(filler);
-	ft_fprintf(1, "moi2323");
 	while (1)
 	{
 		parse_input(filler);
@@ -112,12 +139,12 @@ int		main(void)
 	}
 	while (get_next_line(0, &line) > 0)
 	{
-		ft_fprintf(fd, "%s\n", line);
+		ft_fprintf(fdebug, "%s\n", line);
 		ft_printf("12 14\n");
 		free(line);
 	}
-	ft_fprintf(fd, "\n");
-	close(fd);
+	ft_fprintf(fdebug, "\n");
+	close(fdebug);
 	ft_printf("3 5\n");
 	return (0);
 }
