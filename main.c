@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/04 21:37:21 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/04 21:43:46 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	get_player_id(t_filler *filler)
 		handle_error("Invalid player id.");
 	filler->player_id = ft_atoi(id_pointer + 1);
 	handle_error("yes");
-	mäki brb
 }
 
 t_filler	*init_filler(void)
@@ -47,7 +46,7 @@ t_filler	*init_filler(void)
 }
 
 void	skip_useless_lines(void)
-{
+{0
 	char *line;
 
 	get_next_line(0, &line);
