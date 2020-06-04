@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/04 21:43:46 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/04 21:44:33 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_filler	*init_filler(void)
 }
 
 void	skip_useless_lines(void)
-{0
+{
 	char *line;
 
 	get_next_line(0, &line);
