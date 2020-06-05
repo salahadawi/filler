@@ -69,6 +69,16 @@ void	skip_useless_lines(void)
 	free(line);
 }
 
+void	free_2d_array(char **arr)
+{
+	int i;
+
+	i = 0;
+	while(arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
 void	init_map(t_filler *filler)
 {
 	size_t	i;
@@ -79,10 +89,7 @@ void	init_map(t_filler *filler)
 	size = ft_strsplit(line, ' ');
 	filler->map_height = ft_atoi(size[1]);
 	filler->map_width = ft_atoi(size[2]);
-	
-	//while (*size)
-		//free((*size)++);
-	//free(size);
+	free_2d_array(size);
 	filler->map = (char**)ft_memalloc(sizeof(char *) * filler->map_height);
 	i = 0;
 	while (i < filler->map_height)
