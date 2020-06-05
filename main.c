@@ -70,12 +70,15 @@ int		get_player_id(t_filler *filler)
 		return handle_error(ERROR_READ_PLAYER_ID);
 	if (!ft_strnequ(VM_PLAYER1, line, 11) && !ft_strnequ(VM_PLAYER2, line, 11))
 		return handle_error(ERROR_INVALID_PLAYER_ID);
+
 	filler->player_id = ft_atoi(ft_strchr(line, 'p') + 1);
 	return (0);
 }
 
-t_filler	*init_filler(t_filler *filler)
+t_filler	*init_filler()
 {
+	t_filler *filler;
+
 	filler = (t_filler*)ft_memalloc(sizeof(t_filler));
 	return (filler);
 }
@@ -172,44 +175,16 @@ void	parse_input(t_filler *filler)
 	}*/
 }
 
-t_vm_output	*new_output_line(char *line)
-{
-	t_vm_output *tmp;
-
-	tmp = (t_vm_output*)ft_memalloc(sizeof(t_vm_output));
-	tmp->line = line;
-	tmp->next = NULL;
-	return (tmp);
-}
-
-void	get_vm_output(t_filler *filler)
-{
-	char *line;
-	t_vm_output *tmp;
-	
-	tmp = NULL;
-	filler->vm_output = tmp;
-	while (get_next_line(0, &line) > 0)
-	{
-		if (!tmp)
-			tmp = new_output_line(line);
-		else
-			tmp->next = new_output_line(line);
-	}
-}
-
 int		main(void)
 {
 	t_filler *filler;
 	char *line;
 	
-	filler = NULL;
-	init_filler(filler);
+	filler = init_filler();
 	if (get_player_id(filler) == -1)
 		return (-1);
 	while (1)
 	{
-		get_vm_output(filler);
 		parse_input(filler);
 		//place_piece(filler);
 	}
