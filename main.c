@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 13:26:39 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 13:33:19 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,37 @@ void	get_map(t_filler *filler)
 		ft_strcpy(filler->map[i++], ft_strchr(line, ' ') + 1);
 		free(line);
 	}
-	i = 0;
 	debug_print_map(filler);
+}
+
+void	init_piece(t_filler *filler)
+{
+	char *line;
+	char **piece_size;
+
+	get_next_line(0, &line);
+	piece_size = ft_strsplit(line, ' ');
+	filler->piece.height = ft_atoi(piece_size[1]);
+	filler->piece.width = ft_atoi(piece_size[2]);
+	free_2d_array(piece_size);
+	filler->piece.token = (char**)ft_memalloc(sizeof(char *) * filler->piece.height);
+}
+
+void	get_piece(t_filler *filler)
+{
+	size_t	i;
+
+	init_piece(filler);
+	i = 0;
+	while (i < filler->piece.height)
+		get_next_line(0, &filler->piece.token[i]);
+
 }
 
 void	parse_input(t_filler *filler)
 {
 	get_map(filler);
+	get_piece(filler);
 	/*filler->piece = line[numbers]
 	while i < piece_size[1]
 	{
