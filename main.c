@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 13:33:19 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 13:45:40 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,27 @@ void	debug_print_map(t_filler *filler)///
 {
 	size_t	i = 0;
 	
+	fdebug = open("testi", O_WRONLY|O_TRUNC);
 	while (i < filler->map_height)
 	{
 		ft_fprintf(fdebug, "%s\n", filler->map[i]);
 		i++;
 	}
 	close(fdebug);
-	exit(0);
+}
+
+void	debug_print_piece(t_filler *filler)///
+{
+	size_t	i = 0;
+	
+	fdebug = open("testi", O_WRONLY|O_APPEND);
+	ft_fprintf(fdebug, "Piece %d %d:\n", filler->piece.height, filler->piece.width);
+	while (i < filler->piece.height)
+	{
+		ft_fprintf(fdebug, "%s\n", filler->piece.token[i]);
+		i++;
+	}
+	close(fdebug);
 }
 
 void	handle_error(char *message)
@@ -113,7 +127,7 @@ void	get_map(t_filler *filler)
 		ft_strcpy(filler->map[i++], ft_strchr(line, ' ') + 1);
 		free(line);
 	}
-	debug_print_map(filler);
+	debug_print_map(filler);//
 }
 
 void	init_piece(t_filler *filler)
@@ -136,8 +150,8 @@ void	get_piece(t_filler *filler)
 	init_piece(filler);
 	i = 0;
 	while (i < filler->piece.height)
-		get_next_line(0, &filler->piece.token[i]);
-
+		get_next_line(0, &filler->piece.token[i++]);
+	debug_print_piece(filler);//
 }
 
 void	parse_input(t_filler *filler)
@@ -156,7 +170,6 @@ int		main(void)
 	t_filler *filler;
 	char *line;
 	
-	fdebug = open("testi", O_WRONLY);
 	filler = init_filler();
 	get_player_id(filler);
 	while (1)
@@ -166,12 +179,7 @@ int		main(void)
 	}
 	while (get_next_line(0, &line) > 0)
 	{
-		ft_fprintf(fdebug, "%s\n", line);
-		ft_printf("12 14\n");
 		free(line);
 	}
-	ft_fprintf(fdebug, "\n");
-	close(fdebug);
-	ft_printf("3 5\n");
 	return (0);
 }
