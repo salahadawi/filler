@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 13:09:25 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 13:26:39 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,6 @@ t_filler	*init_filler(void)
 	return (filler);
 }
 
-void	skip_useless_lines(void)
-{
-	char *line;
-
-	get_next_line(0, &line);
-	free(line);
-	get_next_line(0, &line);
-	free(line);
-}
-
 void	free_2d_array(char **arr)
 {
 	int i;
@@ -86,6 +76,11 @@ void	init_map(t_filler *filler)
 	char 	**size;
 
 	get_next_line(0, &line);
+	if (filler->map)
+	{
+		free(line);
+		return ;
+	}
 	size = ft_strsplit(line, ' ');
 	filler->map_height = ft_atoi(size[1]);
 	filler->map_width = ft_atoi(size[2]);
@@ -109,12 +104,9 @@ void	get_map(t_filler *filler)
 	char	*line;
 	size_t	i;
 
-	if (filler->map)
-		skip_useless_lines();
-	else
-		init_map(filler);
-	i = 0;
+	init_map(filler);
 	skip_coordinates();
+	i = 0;
 	while (i < filler->map_height)
 	{
 		get_next_line(0, &line);
