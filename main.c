@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 15:34:30 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 16:27:09 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	debug_print_map(t_filler *filler)///
 {
 	size_t	i = 0;
 	
-	fdebug = open("testi", O_WRONLY|O_TRUNC);
+	fdebug = open(DEBUG_MAP, O_WRONLY|O_TRUNC);
 	while (i < filler->map_height)
 	{
 		ft_fprintf(fdebug, "%s\n", filler->map[i]);
@@ -29,11 +29,18 @@ void	debug_print_map(t_filler *filler)///
 	close(fdebug);
 }
 
+void	debug_print_line(char *message)///
+{
+	fdebug = open(DEBUG_LINE, O_WRONLY|O_APPEND);
+	ft_fprintf(fdebug, "%s\n", message);
+	close(fdebug);
+}
+
 void	debug_print_piece(t_filler *filler)///
 {
 	size_t	i = 0;
 	
-	fdebug = open("testi", O_WRONLY|O_APPEND);
+	fdebug = open(DEBUG_PIECE, O_WRONLY|O_APPEND);
 	ft_fprintf(fdebug, "Piece %d %d:\n", filler->piece.height, filler->piece.width);
 	while (i < filler->piece.height)
 	{
@@ -47,7 +54,7 @@ int		handle_error(char *message)
 {
 	//ft_fprintf(2, "Error: %s", message);
 	//open only for debug
-	int fd = open("debug", O_WRONLY);///
+	int fd = open(DEBUG_OUTPUT, O_WRONLY);///
 	ft_fprintf(fd, "%s\n", message);///
 	ft_fprintf(2, "%s\n", message);
 	close(fd);///
@@ -117,7 +124,7 @@ void	get_map(t_filler *filler)
 {
 	char	*line;
 	size_t	i;
-
+	// Add check that map is of correct width and height. If yes, next line should be Piece.
 	init_map(filler);
 	skip_coordinates();
 	i = 0;
