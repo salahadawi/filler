@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 13:04:31 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 13:09:25 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	skip_coordinates(void)
 	free(line);
 }
 
-void	parse_input(t_filler *filler)
+void	get_map(t_filler *filler)
 {
 	char	*line;
 	size_t	i;
@@ -121,9 +121,13 @@ void	parse_input(t_filler *filler)
 		ft_strcpy(filler->map[i++], ft_strchr(line, ' ') + 1);
 		free(line);
 	}
-	
 	i = 0;
 	debug_print_map(filler);
+}
+
+void	parse_input(t_filler *filler)
+{
+	get_map(filler);
 	/*filler->piece = line[numbers]
 	while i < piece_size[1]
 	{
