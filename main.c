@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 16:50:44 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 17:18:29 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,12 @@ int		check_map_info(char **map_info)
 	int i;
 
 	i = 0;
+	debug_print_line("***\n");
 	while (map_info[i])
+	{
+		debug_print_line(map_info[i]);
 		i++;
+	}
 	if (i != 3)
 		return (-1);
 	if (!ft_strequ("Plateau", map_info[0]))
@@ -116,17 +120,19 @@ int		init_map(t_filler *filler)
 	char 	**map_info;
 
 	get_next_line(0, &line);
-	if (filler->map)
-	{
-		free(line);
-		return (0);
-	}
+	debug_print_line("*************8");
+	debug_print_line(line);
 	map_info = ft_strsplit(line, ' ');
 	if (check_map_info(map_info) == -1)
 		return handle_error(ERROR_INVALID_MAP);
 	filler->map_height = ft_atoi(map_info[1]);
 	filler->map_width = ft_atoi(map_info[2]);
 	free_2d_array(map_info);
+	if (filler->map)
+	{
+		free(line);
+		return (0);
+	}
 	filler->map = (char**)ft_memalloc(sizeof(char *) * filler->map_height);
 	i = 0;
 	while (i < filler->map_height)
@@ -147,7 +153,8 @@ int		get_map(t_filler *filler)
 	char	*line;
 	size_t	i;
 	// Add check that map is of correct width and height. If yes, next line should be Piece.
-	init_map(filler);
+	if (init_map(filler) == -1)
+		return (-1);
 	skip_coordinates();
 	i = 0;
 	while (i < filler->map_height)
@@ -207,10 +214,14 @@ int		get_piece(t_filler *filler)
 
 int		parse_input(t_filler *filler)
 {
+	char *line;
+
 	if (get_map(filler) == -1)
 		return (-1);
 	if (get_piece(filler) == -1)
 		return (-1);
+	get_next_line(0, &line);
+	free(line);
 	/*filler->piece = line[numbers]
 	while i < piece_size[1]
 	{
@@ -223,7 +234,7 @@ int		main(void)
 {
 	t_filler *filler;
 	char *line;
-	
+
 	filler = init_filler();
 	if (get_player_id(filler) == -1)
 		return (-1);
@@ -231,7 +242,9 @@ int		main(void)
 	{
 		if (parse_input(filler) == -1)
 			return (-1);
+		ft_printf("15 13\n");
 		//place_piece(filler);
+		
 	}
 	while (get_next_line(0, &line) > 0)
 	{
