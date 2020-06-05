@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/04 22:15:29 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 13:04:31 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <stdio.h>///
 #include <fcntl.h>///
 
-int fdebug;
+int fdebug;///
 
-void	debug_print_map(t_filler *filler)
+void	debug_print_map(t_filler *filler)///
 {
 	size_t	i = 0;
 	
@@ -34,8 +34,8 @@ void	handle_error(char *message)
 	//ft_fprintf(2, "Error: %s", message);
 	//open only for debug
 	int fd = open("debug", O_WRONLY);///
-	ft_fprintf(fd, "%s\n", message);
-	close(fd);
+	ft_fprintf(fd, "%s\n", message);///
+	close(fd);///
 	exit(0);
 }
 
