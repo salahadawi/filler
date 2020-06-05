@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 16:27:09 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 16:50:44 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int fdebug;///
 
-void	debug_print_map(t_filler *filler)///
+void	debug_print_map(t_filler *filler)///	
 {
 	size_t	i = 0;
 	
@@ -93,26 +93,45 @@ void	free_2d_array(char **arr)
 	free(arr);
 }
 
-void	init_map(t_filler *filler)
+int		check_map_info(char **map_info)
+{
+	int i;
+
+	i = 0;
+	while (map_info[i])
+		i++;
+	if (i != 3)
+		return (-1);
+	if (!ft_strequ("Plateau", map_info[0]))
+		return (-1);
+	if (!atoi(map_info[1]) || !atoi(map_info[2]))
+		return (-1);
+	return (0);
+}
+
+int		init_map(t_filler *filler)
 {
 	size_t	i;
 	char 	*line;
-	char 	**size;
+	char 	**map_info;
 
 	get_next_line(0, &line);
 	if (filler->map)
 	{
 		free(line);
-		return ;
+		return (0);
 	}
-	size = ft_strsplit(line, ' ');
-	filler->map_height = ft_atoi(size[1]);
-	filler->map_width = ft_atoi(size[2]);
-	free_2d_array(size);
+	map_info = ft_strsplit(line, ' ');
+	if (check_map_info(map_info) == -1)
+		return handle_error(ERROR_INVALID_MAP);
+	filler->map_height = ft_atoi(map_info[1]);
+	filler->map_width = ft_atoi(map_info[2]);
+	free_2d_array(map_info);
 	filler->map = (char**)ft_memalloc(sizeof(char *) * filler->map_height);
 	i = 0;
 	while (i < filler->map_height)
 		filler->map[i++] = (char*)ft_memalloc(sizeof(char) * filler->map_width);
+	return (0);
 }
 
 void	skip_coordinates(void)
@@ -123,7 +142,7 @@ void	skip_coordinates(void)
 	free(line);
 }
 
-void	get_map(t_filler *filler)
+int		get_map(t_filler *filler)
 {
 	char	*line;
 	size_t	i;
@@ -138,41 +157,66 @@ void	get_map(t_filler *filler)
 		free(line);
 	}
 	debug_print_map(filler);//
+	return (0);
 }
 
-void	init_piece(t_filler *filler)
+int		check_piece_info(char **piece_info)
+{
+	int i;
+
+	i = 0;
+	while (piece_info[i])
+		i++;
+	if (i != 3)
+		return (-1);
+	if (!ft_strequ("Piece", piece_info[0]))
+		return (-1);
+	if (!atoi(piece_info[1]) || !atoi(piece_info[2]))
+		return (-1);
+	return (0);
+}
+
+int		init_piece(t_filler *filler)
 {
 	char *line;
 	char **piece_size;
 
 	get_next_line(0, &line);
 	piece_size = ft_strsplit(line, ' ');
+	if (check_piece_info(piece_size) == -1)
+		return handle_error(ERROR_INVALID_PIECE);
 	filler->piece.height = ft_atoi(piece_size[1]);
 	filler->piece.width = ft_atoi(piece_size[2]);
 	free_2d_array(piece_size);
 	filler->piece.token = (char**)ft_memalloc(sizeof(char *) * filler->piece.height);
+	return (0);
 }
 
-void	get_piece(t_filler *filler)
+int		get_piece(t_filler *filler)
 {
 	size_t	i;
 
-	init_piece(filler);
+	if (init_piece(filler) == -1)
+		return (-1);
 	i = 0;
 	while (i < filler->piece.height)
 		get_next_line(0, &filler->piece.token[i++]);
 	debug_print_piece(filler);//
+	return (0);
 }
 
-void	parse_input(t_filler *filler)
+int		parse_input(t_filler *filler)
 {
-	get_map(filler);
-	get_piece(filler);
+	if (get_map(filler) == -1)
+		return (-1);
+	if (get_piece(filler) == -1)
+		return (-1);
 	/*filler->piece = line[numbers]
 	while i < piece_size[1]
 	{
 		filler->piece[i] = line;
 	}*/
+	return (0);
 }
 
 int		main(void)
@@ -185,7 +229,8 @@ int		main(void)
 		return (-1);
 	while (1)
 	{
-		parse_input(filler);
+		if (parse_input(filler) == -1)
+			return (-1);
 		//place_piece(filler);
 	}
 	while (get_next_line(0, &line) > 0)

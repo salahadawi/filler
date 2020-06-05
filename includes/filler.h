@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 16:24:16 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/05 16:51:37 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define ERROR_INVALID_PLAYER_ID "Invalid player id"
 # define ERROR_READ_MAP "Reading map failed"
 # define ERROR_INVALID_MAP "Invalid map"
+# define ERROR_INVALID_PIECE "Invalid piece"
 
 /*
 ** Debug
