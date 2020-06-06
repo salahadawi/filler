@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 14:43:18 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 17:48:31 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 18:44:07 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	debug_print_map(t_filler *filler)///
 	while (i < filler->piece.height)
 		ft_fprintf(fdebug, "%s\n", filler->piece.token[i++]);
 
-	ft_fprintf(fdebug, "y: %d, x: %d", filler->piece.offset_y, filler->piece.offset_x);
+	ft_fprintf(fdebug, "y: %d, x: %d\n", filler->piece.offset_y, filler->piece.offset_x);
+	ft_fprintf(fdebug, "PIECE SIZE: h: %d, w: %d", filler->piece.piece_height, filler->piece.piece_width);
 	ft_fprintf(fdebug, "\n");
 	close(fdebug);
 }
