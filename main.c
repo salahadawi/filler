@@ -6,13 +6,19 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 18:06:36 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 18:53:51 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/filler.h"
 #include <stdio.h>///
 #include <fcntl.h>///
+
+void	game_ended()
+{
+	while (1)
+		ft_printf("0 0\n");
+}
 
 int		handle_error(char *message)
 {
@@ -402,5 +408,6 @@ int		main(void)
 	}
 	//FREE MeMORY!!!!!
 	//free_memory(filler); free map and struct
+	game_ended();
 	return (0);
 }
