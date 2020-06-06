@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 14:26:24 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 15:11:11 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct	s_player
 typedef struct	s_piece
 {
 	char		**token;
+	size_t		offset_y;
+	size_t		offset_x;			
 	size_t		width;
 	size_t		height;
 }				t_piece;
@@ -66,5 +68,11 @@ typedef struct	s_filler
 	size_t			map_height;
 	t_piece			piece;
 }					t_filler;
+
+void	debug_print_map(t_filler *filler);
+
+void	debug_print_line(char *message);
+
+void	debug_print_piece(t_filler *filler);
 
 #endif

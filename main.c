@@ -86,7 +86,6 @@ int		init_map(t_filler *filler)
 	get_next_line(0, &line);
 	if (!line)
 	{
-		//game is over, free memory
 		handle_error(GOT_NULL_FROM_VM);
 		return (-1);
 	}
@@ -184,28 +183,103 @@ int		get_piece(t_filler *filler)
 
 int		parse_input(t_filler *filler)
 {
-	//char *line;
-
 	if (get_map(filler) == -1)
 		return (-1);
 	if (get_piece(filler) == -1)
 		return (-1);
-	
-	//get_next_line(0, &line);
-	debug_print_line("aaaa2");
-	//free(line);
-	/*filler->piece = line[numbers]
-	while i < piece_size[1]
-	{
-		filler->piece[i] = line;
-	}*/
 	return (0);
+}
+
+int		check_move_valid(t_filler *filler, int y, int x)
+{
+	
+}
+
+void	get_y_offset(t_filler *filler)
+{
+	size_t	i;
+
+	i = 0;
+	while (filler->piece.token[i])
+	{
+		if (!ft_strchr(filler->piece.token[i++], '*'))
+			filler->piece.offset_y++;
+		else
+			break;
+	}
+}
+
+void	get_x_offset(t_filler *filler)
+{
+	size_t row;
+	size_t col;
+
+	col = 0;
+	while (col < filler->piece.width)
+	{
+		row = 0;
+		while (row < filler->piece.height)
+		{
+			if (filler->piece.token[row][col] == '*')
+				return ;
+			row++;
+		}
+		filler->piece.offset_x++;
+		col++;
+	}
+}
+
+void	parse_piece(t_filler *filler)
+{
+	//int	i;
+	//int	j;
+
+	get_y_offset(filler);
+	get_x_offset(filler);
+	
+	debug_print_line(ft_sprintf("y: %d, x: %d", filler->piece.offset_y, filler->piece.offset_x));
+}
+
+int		*find_first_valid(t_filler *filler, int *y, int *x)
+{
+	int	i;
+	int	j;
+	int	founded;
+
+	i = 0;
+	while (i < filler->map_width)
+	{
+		j = 0;
+		if (founded)
+			return (0);
+	}
+	return (-1);
+}
+
+int		place_piece(t_filler *filler)
+{
+	int		y;
+	int		x;
+
+	
+	if (find_first_valid(filler, &y, &x) == -1)
+		return (-1);
+	ft_printf("%d %d\n", y, x);
+	return (0);
+}
+
+void	free_piece(t_filler *filler)
+{
+	int i;
+
+	while (filler->piece.token[i])
+		free(filler->piece.token[i++]);
+	free(filler->piece.token);
 }
 
 int		main(void)
 {
 	t_filler *filler;
-	char *line;
 
 	filler = init_filler();
 	if (get_player_id(filler) == -1)
@@ -213,13 +287,11 @@ int		main(void)
 	while (1)
 	{
 		if (parse_input(filler) == -1)
-			return (-1);
-		ft_printf("12 13\n"); //print coords before
-		//place_piece(filler);
+			break;
+		parse_piece(filler);
+		place_piece(filler);
+		free_piece(filler);
 	}
-	while (get_next_line(0, &line) > 0)
-	{
-		free(line);
-	}
+	//FREE MeMORY!!!!!
 	return (0);
 }
