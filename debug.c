@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 14:43:18 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 14:43:43 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 17:48:31 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,17 @@ void	debug_print_map(t_filler *filler)///
 {
 	size_t	i = 0;
 	
-	fdebug = open(DEBUG_MAP, O_WRONLY|O_TRUNC);
+	fdebug = open(DEBUG_MAP, O_WRONLY|O_APPEND);
+	ft_fprintf(fdebug, "MAP: \n");
 	while (i < filler->map_height)
-	{
-		ft_fprintf(fdebug, "%s\n", filler->map[i]);
-		i++;
-	}
+		ft_fprintf(fdebug, "%s\n", filler->map[i++]);
+	i = 0;
+	ft_fprintf(fdebug, "\nPIECE: \n");
+	while (i < filler->piece.height)
+		ft_fprintf(fdebug, "%s\n", filler->piece.token[i++]);
+
+	ft_fprintf(fdebug, "y: %d, x: %d", filler->piece.offset_y, filler->piece.offset_x);
+	ft_fprintf(fdebug, "\n");
 	close(fdebug);
 }
 
