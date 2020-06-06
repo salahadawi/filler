@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 16:23:47 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 17:18:03 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 ** VM/Gameplay defines
 */
 
-# define PLAYER_1_SYMBOL 'X'
-# define PLAYER_2_SYMBOL 'O'
+# define PLAYER_1_SYMBOL 'O'
+# define PLAYER_2_SYMBOL 'X'
 # define VM_PLAYER1 "$$$ exec p1"
 # define VM_PLAYER2 "$$$ exec p2"
 
