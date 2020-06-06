@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 16:51:37 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 14:26:24 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define ERROR_READ_MAP "Reading map failed"
 # define ERROR_INVALID_MAP "Invalid map"
 # define ERROR_INVALID_PIECE "Invalid piece"
+# define GOT_NULL_FROM_VM "Got null from VM (probably tried to place piece in an invalid location)"
 
 /*
 ** Debug

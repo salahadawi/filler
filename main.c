@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/05 17:18:29 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 14:35:34 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ int		init_map(t_filler *filler)
 	char 	**map_info;
 
 	get_next_line(0, &line);
+	if (!line)
+	{
+		//game is over, free memory
+		handle_error(GOT_NULL_FROM_VM);
+		return (-1);
+	}
 	debug_print_line("*************8");
 	debug_print_line(line);
 	map_info = ft_strsplit(line, ' ');
@@ -214,14 +220,16 @@ int		get_piece(t_filler *filler)
 
 int		parse_input(t_filler *filler)
 {
-	char *line;
+	//char *line;
 
 	if (get_map(filler) == -1)
 		return (-1);
 	if (get_piece(filler) == -1)
 		return (-1);
-	get_next_line(0, &line);
-	free(line);
+	
+	//get_next_line(0, &line);
+	debug_print_line("aaaa2");
+	//free(line);
 	/*filler->piece = line[numbers]
 	while i < piece_size[1]
 	{
@@ -242,9 +250,8 @@ int		main(void)
 	{
 		if (parse_input(filler) == -1)
 			return (-1);
-		ft_printf("15 13\n");
+		ft_printf("12 13\n"); //print coords before
 		//place_piece(filler);
-		
 	}
 	while (get_next_line(0, &line) > 0)
 	{
