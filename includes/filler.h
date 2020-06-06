@@ -57,6 +57,8 @@ typedef struct	s_piece
 	size_t		offset_x;			
 	size_t		width;
 	size_t		height;
+	size_t		piece_width;
+	size_t		piece_height;
 }				t_piece;
 
 typedef struct	s_filler
