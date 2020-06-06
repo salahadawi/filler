@@ -241,45 +241,39 @@ void	get_piece_width(t_filler *filler)
 {
 	size_t	row;
 	size_t	col;
-	size_t	row_width;
-
-	row = 0;
-	while (row < filler->piece.height)
-	{
-		row_width = 0;
-		col = 0;
-		while (col < filler->piece.width)
-		{	
-			if (filler->piece.token[row][col] == '*')
-				row_width++;
-			col++;
-		}
-		if (row_width > filler->piece.piece_width)
-			filler->piece.piece_width = row_width;
-		row++;
-	}
-}
-
-void	get_piece_height(t_filler *filler)
-{
-	size_t	row;
-	size_t	col;
-	size_t	col_height;
 
 	col = 0;
 	while (col < filler->piece.width)
 	{
-		col_height = 0;
 		row = 0;
 		while (row < filler->piece.height)
-		{	
+		{
 			if (filler->piece.token[row][col] == '*')
-				col_height++;
+			{
+				filler->piece.piece_width++;
+				break;
+			}
 			row++;
 		}
-		if (col_height > filler->piece.piece_height)
-			filler->piece.piece_height = col_height;
 		col++;
+	}
+}
+/*
+**		.*...
+**		***..
+**		..***
+*/
+
+void	get_piece_height(t_filler *filler)
+{
+	size_t	row;
+
+	row = 0;
+	while (row < filler->piece.height)
+	{
+		if (ft_strchr(filler->piece.token[row], '*'))
+			filler->piece.piece_height++;
+		row++;
 	}
 }
 
@@ -345,10 +339,10 @@ int		find_first_valid(t_filler *filler, int *y_coord, int *x_coord)
 	size_t	row;
 	
 	row = 0; //could change this and col to start from [piece height + width] offset area from our squares
-	while (row < filler->map_height - filler->piece.piece_height)
+	while (row < filler->map_height - filler->piece.piece_height + 1)
 	{
 		col = 0;
-		while (col < filler->map_width - filler->piece.piece_width)
+		while (col < filler->map_width - filler->piece.piece_width + 1)
 		{
 			//debug_print_line(ft_sprintf("Checking: %d %d\n", row, col));
 			if (check_move_valid(filler, row - filler->piece.offset_y, col - filler->piece.offset_x))
@@ -361,6 +355,10 @@ int		find_first_valid(t_filler *filler, int *y_coord, int *x_coord)
 		}
 		row++;
 	}
+	for (size_t i = 0; i < filler->map_height; i++)
+		debug_print_line(filler->map[i]);
+	for (size_t i = 0; i < filler->piece.height; i++)
+		debug_print_line(filler->piece.token[i]);
 	return (-1);
 }
 
