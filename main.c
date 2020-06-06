@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 17:22:20 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/06 18:06:36 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int		get_player_id(t_filler *filler)
 		return handle_error(ERROR_READ_PLAYER_ID);
 	if (!ft_strnequ(VM_PLAYER1, line, 11) && !ft_strnequ(VM_PLAYER2, line, 11))
 		return handle_error(ERROR_INVALID_PLAYER_ID);
-
-	if (ft_atoi(ft_strchr(line, 'p') + 1) == '1')
+	if (ft_atoi(ft_strchr(line, 'p') + 1) == 1)
 	{
 		filler->player_symbol = PLAYER_1_SYMBOL;
 		filler->opponent_symbol = PLAYER_2_SYMBOL;
