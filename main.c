@@ -70,7 +70,6 @@ int		check_map_info(char **map_info)
 	int i;
 
 	i = 0;
-	debug_print_line("***\n");
 	while (map_info[i])
 	{
 		debug_print_line(map_info[i]);
@@ -140,7 +139,7 @@ int		get_map(t_filler *filler)
 		ft_strcpy(filler->map[i++], ft_strchr(line, ' ') + 1);
 		free(line);
 	}
-	debug_print_map(filler);//
+	//debug_print_map(filler);//
 	return (0);
 }
 
@@ -340,10 +339,10 @@ int		find_first_valid(t_filler *filler, int *y_coord, int *x_coord)
 	size_t	row;
 	
 	row = 0; //could change this and col to start from [piece height + width] offset area from our squares
-	while (row < filler->map_height)
+	while (row < filler->map_height - filler->piece.piece_height)
 	{
 		col = 0;
-		while (col < filler->map_width)
+		while (col < filler->map_width - filler->piece.piece_width)
 		{
 			//debug_print_line(ft_sprintf("Checking: %d %d\n", row, col));
 			if (check_move_valid(filler, row - filler->piece.offset_y, col - filler->piece.offset_x))
@@ -379,6 +378,7 @@ void	free_piece(t_filler *filler)
 	while (i < filler->piece.height)
 		free(filler->piece.token[i++]);
 	free(filler->piece.token);
+	ft_memset((void*)&filler->piece, 0, sizeof(filler->piece));
 }
 
 int		main(void)
@@ -392,9 +392,15 @@ int		main(void)
 	{
 		if (parse_input(filler) == -1)
 			break;
-		place_piece(filler);
+		if (place_piece(filler) == -1)
+		{
+			free_piece(filler);
+			break;
+		}
+		debug_print_map(filler);
 		free_piece(filler);
 	}
 	//FREE MeMORY!!!!!
+	//free_memory(filler); free map and struct
 	return (0);
 }
