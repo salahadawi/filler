@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 14:07:09 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 14:42:06 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct		s_filler
 	size_t			map_width;
 	size_t			map_height;
 	t_piece			piece;
-	t_moves			valid_moves;
+	t_moves			*valid_moves;
 }					t_filler;
 
 void				debug_print_map(t_filler *filler);
