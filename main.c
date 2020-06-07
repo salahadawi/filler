@@ -6,13 +6,14 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 15:03:27 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 15:43:49 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/filler.h"
 #include <stdio.h>///
 #include <fcntl.h>///
+
 
 void	game_ended()
 {
@@ -155,7 +156,7 @@ int		get_map(t_filler *filler)
 	{
 		if (get_next_line(0, &line) != 1)
 			return (handle_error(ERROR_INVALID_MAP));
-		//debug_print_line(line);
+		debug_print_line(line);
 		if (!check_map_line_valid(filler, line))
 		{
 			free(line);
@@ -223,7 +224,7 @@ int		get_piece(t_filler *filler)
 		if (get_next_line(0, &filler->piece.token[i++]) != 1)
 			return (handle_error(ERROR_INVALID_PIECE));
 	}
-	//debug_print_piece(filler);//
+	debug_print_piece(filler);//
 	if (!check_piece_valid(filler))
 		return (handle_error(ERROR_INVALID_PIECE));
 	return (0);
@@ -420,19 +421,57 @@ void	find_valid_moves(t_filler *filler)
 	}
 }
 
+#include <stdlib.h>// for random()
+#include <time.h>//
+int		random_algorithm(t_filler *filler, int *y, int *x)
+{
+	t_moves *tmp;
+	int		move_amt = 0;
+	time_t 	t;
+
+	if (!filler->valid_moves)
+		return (-1);
+	srand((unsigned) time(&t));
+	for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
+		move_amt++;
+	int random_idx = rand() % move_amt;
+	tmp = filler->valid_moves;
+	while (random_idx--)
+		tmp = tmp->next;
+	*y = tmp->y;
+	*x = tmp->x;
+	return (0);
+}
+
+void	free_moves(t_filler *filler)
+{
+	t_moves *tmp;
+	
+	while (filler->valid_moves)
+	{
+		tmp = filler->valid_moves->next;
+		free(filler->valid_moves);
+		filler->valid_moves = tmp;
+	}
+}
+
 int		place_piece(t_filler *filler)
 {
 	int		y;
 	int		x;
 
+	
 	get_piece_dimensions(filler);
 	find_valid_moves(filler);
 	//for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
 		//debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
-	if (find_first_valid(filler, &y, &x) == -1)
+	//if (find_first_valid(filler, &y, &x) == -1)
+		//return (-1);
+	if (random_algorithm(filler, &y, &x) == -1)
 		return (-1);
 	ft_printf("%d %d\n", y, x);
 	//debug_print_line(ft_sprintf("COORDINATES: %d %d\n", y, x));
+	free_moves(filler); //function to free allocated list of moves
 	return (0);
 }
 
