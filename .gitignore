@@ -1,3 +1,4 @@
 *.txt
-*filler*
-*debug*
+*filler
+*debug_*.txt
+.vsls.json
