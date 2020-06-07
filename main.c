@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 15:43:49 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 15:47:14 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int		get_map(t_filler *filler)
 	{
 		if (get_next_line(0, &line) != 1)
 			return (handle_error(ERROR_INVALID_MAP));
-		debug_print_line(line);
+		//debug_print_line(line);
 		if (!check_map_line_valid(filler, line))
 		{
 			free(line);
@@ -224,7 +224,7 @@ int		get_piece(t_filler *filler)
 		if (get_next_line(0, &filler->piece.token[i++]) != 1)
 			return (handle_error(ERROR_INVALID_PIECE));
 	}
-	debug_print_piece(filler);//
+	//debug_print_piece(filler);//
 	if (!check_piece_valid(filler))
 		return (handle_error(ERROR_INVALID_PIECE));
 	return (0);
@@ -468,7 +468,10 @@ int		place_piece(t_filler *filler)
 	//if (find_first_valid(filler, &y, &x) == -1)
 		//return (-1);
 	if (random_algorithm(filler, &y, &x) == -1)
+	{
+		ft_printf("0 0\n");
 		return (-1);
+	}
 	ft_printf("%d %d\n", y, x);
 	//debug_print_line(ft_sprintf("COORDINATES: %d %d\n", y, x));
 	free_moves(filler); //function to free allocated list of moves
