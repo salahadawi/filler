@@ -188,7 +188,8 @@ int		init_piece(t_filler *filler)
 	char *line;
 	char **piece_size;
 
-	get_next_line(0, &line);
+	if (get_next_line(0, &line) != 1)
+		return (handle_error(ERROR_INVALID_PIECE));
 	piece_size = ft_strsplit(line, ' ');
 	if (check_piece_info(piece_size) == -1)
 		return handle_error(ERROR_INVALID_PIECE);
@@ -199,6 +200,17 @@ int		init_piece(t_filler *filler)
 	return (0);
 }
 
+int		check_piece_valid(t_filler *filler)
+{
+	size_t i;
+
+	i = 0;
+	while (i < filler->piece.height)
+		if (ft_strlen(filler->piece.token[i++]) != filler->piece.width)
+			return (0);
+	return (1);
+}
+
 int		get_piece(t_filler *filler)
 {
 	size_t	i;
@@ -207,8 +219,13 @@ int		get_piece(t_filler *filler)
 		return (-1);
 	i = 0;
 	while (i < filler->piece.height)
-		get_next_line(0, &filler->piece.token[i++]);
+	{
+		if (get_next_line(0, &filler->piece.token[i++]) != 1)
+			return (handle_error(ERROR_INVALID_PIECE));
+	}
 	debug_print_piece(filler);//
+	if (!check_piece_valid(filler))
+		return (handle_error(ERROR_INVALID_PIECE));
 	return (0);
 }
 
@@ -341,16 +358,6 @@ int		check_move_valid(t_filler *filler, int y, int x)
 	return (0);
 }
 
-/*
-.......
-.......
-.......
-.......
-
-....
-.xx.
-*/
-
 int		find_first_valid(t_filler *filler, int *y_coord, int *x_coord)
 {
 	size_t	col;
@@ -424,6 +431,6 @@ int		main(void)
 	}
 	//FREE MeMORY!!!!!
 	//free_memory(filler); free map and struct
-	game_ended();
+	//game_ended(); Program should end in someway if executed without VM
 	return (0);
 }
