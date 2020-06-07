@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 14:44:11 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 15:03:27 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int		init_map(t_filler *filler)
 
 	if (get_next_line(0, &line) != 1)
 		return (handle_error(ERROR_INVALID_MAP));
-	debug_print_line("*************8");//
-	debug_print_line(line);//
+	//debug_print_line("*************8");//
+	//debug_print_line(line);//
 	map_info = ft_strsplit(line, ' ');
 	if (check_map_info(map_info) == -1)
 		return handle_error(ERROR_INVALID_MAP);
@@ -136,7 +136,6 @@ int		check_map_line_valid(t_filler *filler, char *line)
 	if (!row_start_ptr)
 		return (0);
 	row_start_ptr++;
-	debug_print_line(ft_sprintf("%d, %d", ft_strlen(row_start_ptr), filler->map_width));
 	if (ft_strlen(row_start_ptr) != filler->map_width)
 		return (0);
 	return (1);
@@ -156,6 +155,7 @@ int		get_map(t_filler *filler)
 	{
 		if (get_next_line(0, &line) != 1)
 			return (handle_error(ERROR_INVALID_MAP));
+		//debug_print_line(line);
 		if (!check_map_line_valid(filler, line))
 		{
 			free(line);
@@ -223,7 +223,7 @@ int		get_piece(t_filler *filler)
 		if (get_next_line(0, &filler->piece.token[i++]) != 1)
 			return (handle_error(ERROR_INVALID_PIECE));
 	}
-	debug_print_piece(filler);//
+	//debug_print_piece(filler);//
 	if (!check_piece_valid(filler))
 		return (handle_error(ERROR_INVALID_PIECE));
 	return (0);
@@ -293,11 +293,6 @@ void	get_piece_width(t_filler *filler)
 		col++;
 	}
 }
-/*
-**		.*...
-**		***..
-**		..***
-*/
 
 void	get_piece_height(t_filler *filler)
 {
@@ -314,16 +309,13 @@ void	get_piece_height(t_filler *filler)
 
 void	get_piece_dimensions(t_filler *filler)
 {
-	//int	i;
-	//int	j;
-
 	get_y_offset(filler);
 	get_x_offset(filler);
 	get_piece_width(filler);
 	get_piece_height(filler);
 	
-	debug_print_line(ft_sprintf("y: %d, x: %d", filler->piece.offset_y, filler->piece.offset_x));
-	debug_print_line(ft_sprintf("SIZE: h: %d, w: %d", filler->piece.piece_height, filler->piece.piece_width));
+	//debug_print_line(ft_sprintf("y: %d, x: %d", filler->piece.offset_y, filler->piece.offset_x));
+	//debug_print_line(ft_sprintf("SIZE: h: %d, w: %d", filler->piece.piece_height, filler->piece.piece_width));
 }
 
 int		check_move_valid(t_filler *filler, int y, int x)
@@ -380,10 +372,6 @@ int		find_first_valid(t_filler *filler, int *y_coord, int *x_coord)
 		}
 		row++;
 	}
-	for (size_t i = 0; i < filler->map_height; i++)
-		debug_print_line(filler->map[i]);
-	for (size_t i = 0; i < filler->piece.height; i++)
-		debug_print_line(filler->piece.token[i]);
 	return (-1);
 }
 
@@ -439,12 +427,12 @@ int		place_piece(t_filler *filler)
 
 	get_piece_dimensions(filler);
 	find_valid_moves(filler);
-	for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
-		debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
+	//for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
+		//debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
 	if (find_first_valid(filler, &y, &x) == -1)
 		return (-1);
 	ft_printf("%d %d\n", y, x);
-	debug_print_line(ft_sprintf("COORDINATES: %d %d\n", y, x));
+	//debug_print_line(ft_sprintf("COORDINATES: %d %d\n", y, x));
 	return (0);
 }
 

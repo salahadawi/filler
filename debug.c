@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 14:43:18 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 18:44:07 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 14:59:01 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	debug_print_piece(t_filler *filler)///
 	size_t	i = 0;
 	
 	fdebug = open(DEBUG_PIECE, O_WRONLY|O_APPEND);
-	ft_fprintf(fdebug, "Piece %d %d:\n", filler->piece.height, filler->piece.width);
+	ft_fprintf(fdebug, "Piece %d %d: Player: %c\n", filler->piece.height, filler->piece.width, filler->player_symbol);
 	while (i < filler->piece.height)
 	{
 		ft_fprintf(fdebug, "%s\n", filler->piece.token[i]);
