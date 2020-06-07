@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 13:28:27 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 14:44:11 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,12 +387,60 @@ int		find_first_valid(t_filler *filler, int *y_coord, int *x_coord)
 	return (-1);
 }
 
+t_moves	*new_move(int x, int y)
+{
+	t_moves *move;
+
+	move = (t_moves*)ft_memalloc(sizeof(t_moves));
+	move->x = x;
+	move->y = y;
+	move->next = NULL;
+	return (move);
+}
+
+void	find_valid_moves(t_filler *filler)
+{
+	size_t	col;
+	size_t	row;
+	t_moves *tmp;
+	
+	tmp = NULL;
+	row = 0;
+	while (row < filler->map_height - filler->piece.piece_height + 1)
+	{
+		col = 0;
+		while (col < filler->map_width - filler->piece.piece_width + 1)
+		{
+			if (check_move_valid(filler, row - filler->piece.offset_y, col - filler->piece.offset_x))
+			{
+				if (!tmp)
+				{
+					tmp = new_move(col - filler->piece.offset_x,
+					row -filler->piece.offset_y);
+					filler->valid_moves = tmp;
+				}
+				else
+				{
+					tmp->next = new_move(col - filler->piece.offset_x,
+					row -filler->piece.offset_y);
+					tmp = tmp->next;
+				}
+			}
+			col++;
+		}
+		row++;
+	}
+}
+
 int		place_piece(t_filler *filler)
 {
 	int		y;
 	int		x;
 
 	get_piece_dimensions(filler);
+	find_valid_moves(filler);
+	for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
+		debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
 	if (find_first_valid(filler, &y, &x) == -1)
 		return (-1);
 	ft_printf("%d %d\n", y, x);
@@ -431,6 +479,6 @@ int		main(void)
 	}
 	//FREE MeMORY!!!!!
 	//free_memory(filler); free map and struct
-	//game_ended(); Program should end in someway if executed without VM
+	//game_ended(); //Program should end in someway if executed without VM
 	return (0);
 }
