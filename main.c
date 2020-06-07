@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 18:53:51 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 13:28:27 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,10 @@ int		init_map(t_filler *filler)
 	char 	*line;
 	char 	**map_info;
 
-	get_next_line(0, &line);
-	if (!line)
-	{
-		handle_error(GOT_NULL_FROM_VM);
-		return (-1);
-	}
-	debug_print_line("*************8");
-	debug_print_line(line);
+	if (get_next_line(0, &line) != 1)
+		return (handle_error(ERROR_INVALID_MAP));
+	debug_print_line("*************8");//
+	debug_print_line(line);//
 	map_info = ft_strsplit(line, ' ');
 	if (check_map_info(map_info) == -1)
 		return handle_error(ERROR_INVALID_MAP);
@@ -122,30 +118,52 @@ int		init_map(t_filler *filler)
 	return (0);
 }
 
-void	skip_coordinates(void)
+int		skip_coordinates(void)
 {
 	char *line;
 
-	get_next_line(0, &line);
+	if (get_next_line(0, &line) != 1)
+		return handle_error(ERROR_INVALID_MAP);
 	free(line);
+	return (0);
+}
+
+int		check_map_line_valid(t_filler *filler, char *line)
+{
+	char *row_start_ptr;
+
+	row_start_ptr = ft_strchr(line, ' ');
+	if (!row_start_ptr)
+		return (0);
+	row_start_ptr++;
+	debug_print_line(ft_sprintf("%d, %d", ft_strlen(row_start_ptr), filler->map_width));
+	if (ft_strlen(row_start_ptr) != filler->map_width)
+		return (0);
+	return (1);
 }
 
 int		get_map(t_filler *filler)
 {
 	char	*line;
 	size_t	i;
-	// Add check that map is of correct width and height. If yes, next line should be Piece.
+
 	if (init_map(filler) == -1)
 		return (-1);
-	skip_coordinates();
+	if (skip_coordinates() == -1)
+		return (-1);
 	i = 0;
 	while (i < filler->map_height)
 	{
-		get_next_line(0, &line);
+		if (get_next_line(0, &line) != 1)
+			return (handle_error(ERROR_INVALID_MAP));
+		if (!check_map_line_valid(filler, line))
+		{
+			free(line);
+			return (handle_error(ERROR_INVALID_MAP));
+		}
 		ft_strcpy(filler->map[i++], ft_strchr(line, ' ') + 1);
 		free(line);
 	}
-	//debug_print_map(filler);//
 	return (0);
 }
 
