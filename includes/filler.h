@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/06 17:18:03 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/07 12:39:34 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,26 @@
 # define DEBUG_LINE "debug_line.txt"
 # define DEBUG_MAP "debug_map.txt"
 
-typedef struct	s_player
+typedef struct		s_moves
 {
-	int			player_id;
-}				t_player;
+	int				x;
+	int				y;
+	struct s_moves	*next;
+}					t_moves;
 
-typedef struct	s_piece
+typedef struct		s_piece
 {
-	char		**token;
-	size_t		offset_y;
-	size_t		offset_x;			
-	size_t		width;
-	size_t		height;
-	size_t		piece_width;
-	size_t		piece_height;
-}				t_piece;
+	char			**token;
+	size_t			offset_y;
+	size_t			offset_x;			
+	size_t			width;
+	size_t			height;
+	size_t			piece_width;
+	size_t			piece_height;
+}					t_piece;
 
-typedef struct	s_filler
+typedef struct		s_filler
 {
-	//t_player	*s_player;
 	char			player_symbol;
 	char			opponent_symbol;
 	char			**map;
@@ -72,10 +73,10 @@ typedef struct	s_filler
 	t_piece			piece;
 }					t_filler;
 
-void	debug_print_map(t_filler *filler);
+void				debug_print_map(t_filler *filler);
 
-void	debug_print_line(char *message);
+void				debug_print_line(char *message);
 
-void	debug_print_piece(t_filler *filler);
+void				debug_print_piece(t_filler *filler);
 
 #endif
