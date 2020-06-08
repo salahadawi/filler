@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 14:42:06 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 15:39:33 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FILLER_H
 
 # include "../libft/includes/libft.h"
+# include <limits.h>
 
 /*
 ** VM/Gameplay defines
@@ -68,6 +69,7 @@ typedef struct		s_filler
 	char			player_symbol;
 	char			opponent_symbol;
 	char			**map;
+	int				**heatmap;
 	size_t			map_width;
 	size_t			map_height;
 	t_piece			piece;
@@ -79,5 +81,7 @@ void				debug_print_map(t_filler *filler);
 void				debug_print_line(char *message);
 
 void				debug_print_piece(t_filler *filler);
+
+void				debug_print_line_heatmap(int *line, int size);
 
 #endif

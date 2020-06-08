@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 14:28:20 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 15:57:57 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,6 +461,87 @@ void	free_moves(t_filler *filler)
 	}
 }
 
+int		**init_heatmap(t_filler *filler)
+{
+	size_t	i;
+	size_t	j;
+	int 	**heatmap;
+
+	heatmap = (int**)ft_memalloc(sizeof(int*) * filler->map_height);
+	i = 0;
+	while (i < filler->map_height)
+	{
+		heatmap[i] = (int*)ft_memalloc(sizeof(int) * filler->map_width);
+		j = 0;
+		while (j < filler->map_width)
+			heatmap[i][j++] = INT_MAX;
+		i++;
+	}
+	return (heatmap);
+}
+
+int		ft_abs(int n)
+{
+	if (n >= 0)
+		return (n);
+	return (-n);
+}
+
+void	heatmap(t_filler *filler, int x, int y)
+{
+	size_t	col;
+	size_t	row;
+	int		value;
+
+	if (!filler->heatmap)
+		filler->heatmap = init_heatmap(filler);
+	row = 0;
+	while (row < filler->map_height)
+	{
+		col = 0;
+		while (col < filler->map_width)
+		{
+			value = ft_abs(col - x) > ft_abs(row - y) ? ft_abs(col - x) : ft_abs(row - y);
+			if (filler->heatmap[row][col] > value)
+				filler->heatmap[row][col] = value;
+			col++;
+		}
+		row++;
+	}
+}
+
+void	make_map_heatmap(t_filler *filler)
+{
+	size_t	col;
+	size_t	row;
+
+	col = 0;
+	row = 0;
+	while (row < filler->map_height)
+	{
+		col = 0;
+		while (col < filler->map_width)
+		{
+			if (filler->map[row][col] == filler->opponent_symbol)
+				heatmap(filler, col, row);
+			col++;
+		}
+		row++;
+	}
+}
+
+void	print_heatmap(t_filler *filler)
+{
+	size_t	row;
+
+	row = 0;
+	while (row < filler->map_height)
+	{
+		debug_print_line_heatmap(filler->heatmap[row], filler->map_width);
+		row++;
+	}
+}
+
 int		place_piece(t_filler *filler)
 {
 	int		y;
@@ -468,6 +549,9 @@ int		place_piece(t_filler *filler)
 
 	
 	get_piece_dimensions(filler);
+	make_map_heatmap(filler);
+	print_heatmap(filler);
+	debug_print_line("A");
 	find_valid_moves(filler);
 	//for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
 		//debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
