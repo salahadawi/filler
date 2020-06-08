@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 14:43:18 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 14:59:01 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 15:33:28 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ void	debug_print_line(char *message)///
 {
 	fdebug = open(DEBUG_LINE, O_WRONLY|O_APPEND);
 	ft_fprintf(fdebug, "%s\n", message);
+	close(fdebug);
+}
+
+void	debug_print_line_heatmap(int *line, int size)///
+{
+	fdebug = open(DEBUG_LINE, O_WRONLY|O_APPEND);
+	for (int i = 0; i < size; i++)
+		ft_fprintf(fdebug, "%d ", line[i]);
+	ft_fprintf(fdebug, "\n");
 	close(fdebug);
 }
 
