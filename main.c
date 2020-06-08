@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 16:01:45 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 16:02:37 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -569,6 +569,8 @@ int		place_piece(t_filler *filler)
 		//return (-1);
 	if (random_algorithm(filler, &y, &x) == -1)
 	{
+		free_moves(filler);
+		free_heatmap(filler);
 		ft_printf("0 0\n");
 		return (-1);
 	}
