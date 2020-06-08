@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 15:57:57 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 16:01:45 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -542,6 +542,16 @@ void	print_heatmap(t_filler *filler)
 	}
 }
 
+void	free_heatmap(t_filler *filler)
+{
+	size_t i;
+
+	i = 0;
+	while (i < filler->map_height)
+		free(filler->heatmap[i++]);
+	free(filler->heatmap);
+}
+
 int		place_piece(t_filler *filler)
 {
 	int		y;
@@ -565,6 +575,7 @@ int		place_piece(t_filler *filler)
 	ft_printf("%d %d\n", y, x);
 	//debug_print_line(ft_sprintf("COORDINATES: %d %d\n", y, x));
 	free_moves(filler); //function to free allocated list of moves
+	free_heatmap(filler);
 	return (0);
 }
 
