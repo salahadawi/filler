@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 13:40:28 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 14:28:20 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,7 @@ int		check_map_info(char **map_info)
 
 	i = 0;
 	while (map_info[i])
-	{
-		debug_print_line(map_info[i]);
 		i++;
-	}
 	if (i != 3)
 		return (-1);
 	if (!ft_strequ("Plateau", map_info[0]))
