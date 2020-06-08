@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 13:16:31 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 13:40:28 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ int		get_player_id(t_filler *filler)
 {
 	char *line;
 
-	if (get_next_line(0, &line) == -1)
+	if (get_next_line(0, &line) != 1)
 		return handle_error(ERROR_READ_PLAYER_ID);
 	if (!ft_strnequ(VM_PLAYER1, line, 11) && !ft_strnequ(VM_PLAYER2, line, 11))
+	{
+		free(line);
 		return handle_error(ERROR_INVALID_PLAYER_ID);
+	}
 	if (ft_atoi(ft_strchr(line, 'p') + 1) == 1)
 	{
 		filler->player_symbol = PLAYER_1_SYMBOL;
@@ -51,6 +54,7 @@ int		get_player_id(t_filler *filler)
 		filler->player_symbol = PLAYER_2_SYMBOL;
 		filler->opponent_symbol = PLAYER_1_SYMBOL;
 	}
+	free(line);
 	return (0);
 }
 
@@ -102,16 +106,17 @@ int		init_map(t_filler *filler)
 	//debug_print_line("*************8");//
 	//debug_print_line(line);//
 	map_info = ft_strsplit(line, ' ');
+	free(line);
 	if (check_map_info(map_info) == -1)
+	{
+		free_2d_array(map_info);
 		return handle_error(ERROR_INVALID_MAP);
+	}
 	filler->map_height = ft_atoi(map_info[1]);
 	filler->map_width = ft_atoi(map_info[2]);
 	free_2d_array(map_info);
 	if (filler->map)
-	{
-		free(line);
 		return (0);
-	}
 	filler->map = (char**)ft_memalloc(sizeof(char *) * filler->map_height);
 	i = 0;
 	while (i < filler->map_height)
@@ -192,8 +197,12 @@ int		init_piece(t_filler *filler)
 	if (get_next_line(0, &line) != 1)
 		return (handle_error(ERROR_INVALID_PIECE));
 	piece_size = ft_strsplit(line, ' ');
+	free(line);
 	if (check_piece_info(piece_size) == -1)
+	{
+		free_2d_array(piece_size);
 		return handle_error(ERROR_INVALID_PIECE);
+	}
 	filler->piece.height = ft_atoi(piece_size[1]);
 	filler->piece.width = ft_atoi(piece_size[2]);
 	free_2d_array(piece_size);
@@ -482,6 +491,7 @@ void	free_piece(t_filler *filler)
 {
 	size_t i;
 
+	i = 0;
 	while (i < filler->piece.height)
 		free(filler->piece.token[i++]);
 	free(filler->piece.token);
@@ -495,6 +505,7 @@ void	free_memory(t_filler *filler)
 	i = 0;
 	while (i < filler->map_height)
 		free(filler->map[i++]);
+	free(filler->map);
 	free(filler);
 }
 
@@ -504,7 +515,10 @@ int		main(void)
 
 	filler = init_filler();
 	if (get_player_id(filler) == -1)
+	{
+		free_memory(filler);
 		return (-1);
+	}
 	while (1)
 	{
 		if (parse_input(filler) == -1)
