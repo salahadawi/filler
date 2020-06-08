@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 15:39:33 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 16:09:40 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct		s_moves
 {
 	int				x;
 	int				y;
+	int				score;
 	struct s_moves	*next;
 }					t_moves;
 

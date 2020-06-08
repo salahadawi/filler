@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 16:02:37 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 17:04:29 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,9 +156,11 @@ int		get_map(t_filler *filler)
 	i = 0;
 	while (i < filler->map_height)
 	{
+		debug_print_line("test");
 		if (get_next_line(0, &line) != 1)
 			return (handle_error(ERROR_INVALID_MAP));
-		//debug_print_line(line);
+		debug_print_line("wow");
+		debug_print_line(line);
 		if (!check_map_line_valid(filler, line))
 		{
 			free(line);
@@ -540,6 +542,7 @@ void	print_heatmap(t_filler *filler)
 		debug_print_line_heatmap(filler->heatmap[row], filler->map_width);
 		row++;
 	}
+	debug_print_line("\n");
 }
 
 void	free_heatmap(t_filler *filler)
@@ -550,6 +553,57 @@ void	free_heatmap(t_filler *filler)
 	while (i < filler->map_height)
 		free(filler->heatmap[i++]);
 	free(filler->heatmap);
+	filler->heatmap = NULL;
+}
+
+void	get_move_score(t_filler *filler, t_moves *move)
+{
+	size_t col;
+	size_t row;
+
+	row = 0;
+	while (row < filler->piece.height)
+	{
+		col = 0;
+		while (col < filler->piece.width)
+		{
+			if (filler->piece.token[row][col] == '*')
+				
+				move->score += filler->heatmap[move->y + row][move->x + col];
+			col++;
+		}
+		row++;
+	}
+	return ;
+}
+
+void	score_moves(t_filler *filler)
+{
+	t_moves *tmp;
+
+	tmp = filler->valid_moves;
+	while(tmp)
+	{
+		get_move_score(filler, tmp);
+		tmp = tmp->next;
+	}
+}
+
+void	heatmap_algorithm(t_filler *filler, int *y, int *x)
+{
+	t_moves *best_move;
+	t_moves *tmp;
+	
+	tmp = filler->valid_moves;
+	best_move = tmp;
+	while (tmp)
+	{
+		if (tmp->score < best_move->score)
+			best_move = tmp;
+		tmp = tmp->next;
+	}
+	*y = best_move->y;
+	*x = best_move->x;
 }
 
 int		place_piece(t_filler *filler)
@@ -560,20 +614,22 @@ int		place_piece(t_filler *filler)
 	
 	get_piece_dimensions(filler);
 	make_map_heatmap(filler);
-	print_heatmap(filler);
-	debug_print_line("A");
+	//print_heatmap(filler);
 	find_valid_moves(filler);
-	//for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
-		//debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
-	//if (find_first_valid(filler, &y, &x) == -1)
-		//return (-1);
-	if (random_algorithm(filler, &y, &x) == -1)
+	score_moves(filler);
+	if (!filler->valid_moves)
 	{
 		free_moves(filler);
 		free_heatmap(filler);
 		ft_printf("0 0\n");
 		return (-1);
 	}
+	//for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
+		//debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
+	//if (find_first_valid(filler, &y, &x) == -1)
+		//return (-1);
+	heatmap_algorithm(filler, &y, &x);
+	//random_algorithm(filler, &y, &x);
 	ft_printf("%d %d\n", y, x);
 	//debug_print_line(ft_sprintf("COORDINATES: %d %d\n", y, x));
 	free_moves(filler); //function to free allocated list of moves
