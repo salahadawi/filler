@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/07 15:47:14 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/08 13:16:31 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,6 +488,16 @@ void	free_piece(t_filler *filler)
 	ft_memset((void*)&filler->piece, 0, sizeof(filler->piece));
 }
 
+void	free_memory(t_filler *filler)
+{
+	size_t i;
+
+	i = 0;
+	while (i < filler->map_height)
+		free(filler->map[i++]);
+	free(filler);
+}
+
 int		main(void)
 {
 	t_filler *filler;
@@ -508,7 +518,7 @@ int		main(void)
 		free_piece(filler);
 	}
 	//FREE MeMORY!!!!!
-	//free_memory(filler); free map and struct
+	free_memory(filler); //free map and struct
 	//game_ended(); //Program should end in someway if executed without VM
 	return (0);
 }
