@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:52 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 16:09:40 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/09 15:56:49 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # define ERROR_READ_MAP "Reading map failed"
 # define ERROR_INVALID_MAP "Invalid map"
 # define ERROR_INVALID_PIECE "Invalid piece"
-# define GOT_NULL_FROM_VM "Got null from VM (probably tried to place piece in an invalid location)"
 
 /*
 ** Debug
@@ -58,7 +57,7 @@ typedef struct		s_piece
 {
 	char			**token;
 	size_t			offset_y;
-	size_t			offset_x;			
+	size_t			offset_x;
 	size_t			width;
 	size_t			height;
 	size_t			piece_width;
@@ -76,13 +75,5 @@ typedef struct		s_filler
 	t_piece			piece;
 	t_moves			*valid_moves;
 }					t_filler;
-
-void				debug_print_map(t_filler *filler);
-
-void				debug_print_line(char *message);
-
-void				debug_print_piece(t_filler *filler);
-
-void				debug_print_line_heatmap(int *line, int size);
 
 #endif
