@@ -604,7 +604,7 @@ void	score_moves(t_filler *filler)
 	t_moves *tmp;
 
 	tmp = filler->valid_moves;
-	while(tmp)
+	while (tmp)
 	{
 		get_move_score(filler, tmp);
 		tmp = tmp->next;
@@ -638,7 +638,6 @@ int		place_piece(t_filler *filler)
 	make_map_heatmap(filler);
 	//print_heatmap(filler);
 	find_valid_moves(filler);
-	score_moves(filler);
 	if (!filler->valid_moves)
 	{
 		free_moves(filler);
@@ -646,6 +645,7 @@ int		place_piece(t_filler *filler)
 		ft_printf("0 0\n");
 		return (-1);
 	}
+	score_moves(filler);
 	//for (t_moves *tmp = filler->valid_moves; tmp; tmp = tmp->next)
 		//debug_print_line(ft_sprintf("VALID MOVE: %d %d", tmp->x, tmp->y));
 	//if (find_first_valid(filler, &y, &x) == -1)
