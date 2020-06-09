@@ -6,16 +6,18 @@
 #    By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/10 19:27:20 by sadawi            #+#    #+#              #
-#    Updated: 2020/06/04 18:12:07 by sadawi           ###   ########.fr        #
+#    Updated: 2020/06/09 16:14:53 by sadawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = sadawi.filler
 
-CFILES = *.c
+CFILES = find_valid_moves.c first_algorithm.c free_memory.c get_map.c \
+get_piece.c get_piece_stats.c get_player_id.c handle_error.c \
+heatmap_algorithm.c init_structs.c main.c parse_input.c place_piece.c \
+utilities.c
 
-#SRCS = $(addprefix srcs/, $(CFILES))
-SRCS = $(CFILES)
+SRCS = $(addprefix srcs/, $(CFILES))
 
 OBJS = $(addprefix objs/, $(notdir $(SRCS:.c=.o)))
 
