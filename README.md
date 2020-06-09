@@ -1,6 +1,6 @@
 <h1 align="center">filler - A multiplayer game AI.</h1>
 <p align="center">
-    <img src="https://github.com/salahadawi/ft_ls/blob/master/images/ft_ls-simple.gif">
+    <img src="https://github.com/salahadawi/filler/blob/master/images/filler_demo.gif">
 </p>
 
 Filler is an algorithmic game which consists of filling a grid with randomly generated pieces, 
