@@ -18,6 +18,7 @@ end of the game, the one with the most points wins the match.
 The above image on the left shows a board state given to the AI. Playing as 'X',
 the AI will generate a heatmap of the grid, with each coordinate getting a value equal to it's distance to the nearest opposing players block.
 <br>
+
 The strategy used is to place blocks as near to the opponent as possible,
 with the intention of blocking the opponents paths and limiting their following moves.
 
