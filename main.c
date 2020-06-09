@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/08 17:04:29 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/09 14:41:10 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,26 @@ int		check_map_line_valid(t_filler *filler, char *line)
 	return (1);
 }
 
+int		check_map_contains_players(t_filler *filler)
+{
+	size_t	i;
+	int		player_x_found;
+	int		player_o_found;
+
+	i = 0;
+	player_x_found = 0;
+	player_o_found = 0;
+	while (i < filler->map_height)
+	{
+		if (ft_strchr(filler->map[i], 'X'))
+			player_x_found = 1;
+		if (ft_strchr(filler->map[i], 'O'))
+			player_o_found = 1;
+		i++;
+	}
+	return (player_x_found && player_o_found);
+}
+
 int		get_map(t_filler *filler)
 {
 	char	*line;
@@ -169,6 +189,8 @@ int		get_map(t_filler *filler)
 		ft_strcpy(filler->map[i++], ft_strchr(line, ' ') + 1);
 		free(line);
 	}
+	if (!check_map_contains_players(filler))
+		return (handle_error(ERROR_INVALID_MAP));
 	return (0);
 }
 
