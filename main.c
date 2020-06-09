@@ -6,7 +6,7 @@
 /*   By: sadawi <sadawi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:39 by sadawi            #+#    #+#             */
-/*   Updated: 2020/06/09 14:41:10 by sadawi           ###   ########.fr       */
+/*   Updated: 2020/06/09 15:00:38 by sadawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		init_map(t_filler *filler)
 	filler->map = (char**)ft_memalloc(sizeof(char *) * filler->map_height);
 	i = 0;
 	while (i < filler->map_height)
-		filler->map[i++] = (char*)ft_memalloc(sizeof(char) * filler->map_width);
+		filler->map[i++] = (char*)ft_memalloc(sizeof(char) * filler->map_width + 1);
 	return (0);
 }
 
