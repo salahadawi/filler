@@ -11,6 +11,10 @@ pieces as possible while attempting to prevent your opponent from doing the same
 end of the game, the one with the most points wins the match.
 
 <h2 align="center">How does it work?</h2>
+<p align="center">
+    <img src="https://github.com/salahadawi/filler/blob/master/images/filler_map.png">
+    <img src="https://github.com/salahadawi/filler/blob/master/images/filler_heatmap.png">
+</p>
 
 <h2 align="center">Usage</h2>
 
@@ -28,7 +32,3 @@ make
 ./filler_vm -f maps/map00 -p1 ./sadawi.filler -p2 ./players/random.filler
 ```
 The game will be output to the terminal.
-
-<p align="center">
-    <img src="https://github.com/salahadawi/ft_ls/blob/master/images/ft_ls-libft.gif">
-</p>
